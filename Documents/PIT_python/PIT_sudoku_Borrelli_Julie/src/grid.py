@@ -1,4 +1,4 @@
-#-*-coding: utf8-*-
+# -*-coding: utf8-*-
 
 class SudokuGrid:
     """Cette classe représente une grille de Sudoku.
@@ -14,6 +14,15 @@ class SudokuGrid:
             où ``0`` indique une case vide
         :type initial_values_str: str
         """
+
+        if not (len(initial_values_str) == 81 and initial_values_str.isdigit()):
+            raise ValueError()
+
+        self.grille = []
+
+        for i in range(9):
+            self.grille.append(initial_values_str[i + 9:(i + 1) * 8 + 8])
+
         raise NotImplementedError()
 
     @staticmethod
@@ -29,6 +38,12 @@ class SudokuGrid:
         :return: La grille de Sudoku correspondant à la ligne donnée dans le fichier donné
         :rtype: SudokuGrid
         """
+        with open(file=filename) as file:
+            str = ""
+            for i in range(line):
+                str = file.readline()
+            return SudokuGrid(initial_values_str=str)
+
         raise NotImplementedError()
 
     @staticmethod
@@ -40,6 +55,9 @@ class SudokuGrid:
         :return: La grille de Sudoku correspondant à la ligne donnée par l'utilisateur
         :rtype: SudokuGrid
         """
+
+        return SudokuGrid(initial_values_str=input("Saisir valeurs initials"))
+
         raise NotImplementedError()
 
     def __str__(self):
@@ -48,6 +66,9 @@ class SudokuGrid:
         :return: Une chaîne de caractère (sur plusieurs lignes...) représentant la grille
         :rtype: str
         """
+        grille_str = ""
+        for line in self.grille:
+            grille_str = grille_str + line + "\n"
         raise NotImplementedError()
 
     def get_row(self, i):
@@ -59,6 +80,10 @@ class SudokuGrid:
         :return: La liste des valeurs présentes à la ligne donnée
         :rtype: list of int
         """
+        row = []
+        for char in self.grill[i]:
+            row.append(int(char))
+        return row
         raise NotImplementedError()
 
     def get_col(self, j):
@@ -70,6 +95,10 @@ class SudokuGrid:
         :return: La liste des valeurs présentes à la colonne donnée
         :rtype: list of int
         """
+        col = []
+        for i in range(9):
+            col.append(self.get_row(i)[j])
+        return col
         raise NotImplementedError()
 
     def get_region(self, reg_row, reg_col):
@@ -83,6 +112,10 @@ class SudokuGrid:
         :return: La liste des valeurs présentes à la colonne donnée
         :rtype: list of int
         """
+        list = {}
+        for i in range (reg_row*3, (reg_row+1)*3):
+            for j in range(reg_col*3, (reg_col+1)*3):
+                list.append(self.grille[i, j])
         raise NotImplementedError()
 
     def get_empty_positions(self):
@@ -93,6 +126,13 @@ class SudokuGrid:
         :return: La liste des positions des cases vides dans la grille
         :rtype: list of tuple of int
         """
+        list = {}
+        for i in range(0,9):
+            for j in range(0,9):
+                if self.grille[i*9 + j] == 0:
+                    list.append({i, j})
+
+        return list
         raise NotImplementedError()
 
     def write(self, i, j, v):
@@ -106,6 +146,9 @@ class SudokuGrid:
         :param j: Numéro de colonne de la case à mettre à jour, entre 0 et 8
         :param v: Valeur à écrire dans la case ``(i,j)``, entre 1 et 9
         """
+
+        self.grille[i*9 +j] = v
+
         raise NotImplementedError()
 
     def copy(self):
@@ -117,4 +160,8 @@ class SudokuGrid:
         :return: Une copie de la grille courrante
         :rtype: SudokuGrid
         """
+        string = ""
+        for number in self.grille:
+            string = string + str(number)
+        return SudokuGrid(string)
         raise NotImplementedError()
