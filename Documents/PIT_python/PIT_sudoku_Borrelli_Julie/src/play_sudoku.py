@@ -2,7 +2,8 @@
 #Script permettant de jouer au sudoku et d'implanter le sudoku à la ligne n d'un fichier, pour cela, entrer en argument de ligne de commande : nom_fichier, numero_ligne
 
 import sys
-from grid import *
+from Documents.PIT_python.PIT_sudoku_Borrelli_Julie.src.grid import SudokuGrid
+
 
 def entre09 (valeurs):
 	"""Vérifie que les valeurs sont comprises entre 1 et 9"""
@@ -11,7 +12,7 @@ def entre09 (valeurs):
 		if not 1<=i<=9:
 			inter=False
 			break
-	return (inter)
+	return inter
 
 
 def remplissage(sudoku):
